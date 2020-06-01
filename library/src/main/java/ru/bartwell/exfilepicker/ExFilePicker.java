@@ -34,6 +34,7 @@ public class ExFilePicker {
     private String mStartDirectory;
     private boolean mUseFirstItemAsUpEnabled;
     private boolean mHideHiddenFilesEnabled;
+    private long mMaxFileSize = -1;
 
     public void setCanChooseOnlyOneItem(boolean canChooseOnlyOneItem) {
         mCanChooseOnlyOneItem = canChooseOnlyOneItem;
@@ -79,6 +80,10 @@ public class ExFilePicker {
         mHideHiddenFilesEnabled = enabled;
     }
 
+    public void setMaxFileSize(long maxFileSize) {
+        mMaxFileSize = maxFileSize;
+    }
+
     public void start(@NonNull Activity activity, int requestCode) {
         activity.startActivityForResult(createIntent(activity), requestCode);
     }
@@ -112,6 +117,7 @@ public class ExFilePicker {
         intent.putExtra(ExFilePickerActivity.EXTRA_START_DIRECTORY, mStartDirectory);
         intent.putExtra(ExFilePickerActivity.EXTRA_USE_FIRST_ITEM_AS_UP_ENABLED, mUseFirstItemAsUpEnabled);
         intent.putExtra(ExFilePickerActivity.EXTRA_HIDE_HIDDEN_FILES, mHideHiddenFilesEnabled);
+        intent.putExtra(ExFilePickerActivity.EXTRA_MAX_FILE_SIZE, mMaxFileSize);
         return intent;
     }
 

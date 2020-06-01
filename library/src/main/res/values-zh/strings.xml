@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="efp__app_name">文件</string>
+    <string name="efp__action_grid">网格视图</string>
+    <string name="efp__action_list">列表视图</string>
+
+    <string-array name="efp__size_units">
+        <item>B</item>
+        <item>kB</item>
+        <item>mB</item>
+        <item>gB</item>
+        <item>tB</item>
+        <item>pB</item>
+    </string-array>
+
+    <string name="efp__empty_directory">文件夹为空</string>
+    <string name="efp__action_select_all">全选</string>
+    <string name="efp__action_deselect">取消选择</string>
+    <string name="efp__action_invert_selection">反选</string>
+    <string name="efp__new_folder">新建文件夹</string>
+    <string name="efp__folder_name_hint">文件夹名称</string>
+    <string name="efp__folder_created">文件夹创建成功</string>
+    <string name="efp__folder_not_created">文件夹创建失败</string>
+    <string name="efp__folder_already_exists">已存在同名文件夹</string>
+    <string name="efp__sort">排序</string>
+    <string name="efp__storage">存储</string>
+
+    <string-array name="efp__sorting_types">
+        <item>按名称正序</item>
+        <item>按名称倒序</item>
+        <item>按大小正序</item>
+        <item>按大小倒序</item>
+        <item>按日期正序</item>
+        <item>按日期倒序</item>
+    </string-array>
+
+</resources>

@@ -54,6 +54,7 @@ public class ExFilePickerActivity extends AppCompatActivity implements OnListIte
     public static final String EXTRA_START_DIRECTORY = "START_DIRECTORY";
     public static final String EXTRA_USE_FIRST_ITEM_AS_UP_ENABLED = "USE_FIRST_ITEM_AS_UP_ENABLED";
     public static final String EXTRA_HIDE_HIDDEN_FILES = "HIDE_HIDDEN_FILES";
+    public static final String EXTRA_MAX_FILE_SIZE = "MAX_FILE_SIZE";
     public static final String PERMISSION_READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
     private static final String DIRECTORY_STATE = "DIRECTORY_STATE";
     private static final int REQUEST_CODE_READ_EXTERNAL_STORAGE = 1;
@@ -80,6 +81,7 @@ public class ExFilePickerActivity extends AppCompatActivity implements OnListIte
     private boolean mIsMultiChoiceModeEnabled;
     private boolean mUseFirstItemAsUpEnabled;
     private boolean mHideHiddenFiles;
+    private long mMaxFileSize;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -308,6 +310,14 @@ public class ExFilePickerActivity extends AppCompatActivity implements OnListIte
                     }
                 });
             }
+            if (mMaxFileSize > 0) {
+                ListUtils.filterList(list, new ListUtils.ConditionChecker<File>() {
+                    @Override
+                    public boolean check(@NonNull File file) {
+                        return !file.isDirectory() && file.length() > mMaxFileSize;
+                    }
+                });
+            }
             mAdapter.setItems(list, mSortingType);
         }
     }
@@ -333,6 +343,7 @@ public class ExFilePickerActivity extends AppCompatActivity implements OnListIte
         mCurrentDirectory = getStartDirectory(intent);
         mUseFirstItemAsUpEnabled = intent.getBooleanExtra(EXTRA_USE_FIRST_ITEM_AS_UP_ENABLED, false);
         mHideHiddenFiles = intent.getBooleanExtra(EXTRA_HIDE_HIDDEN_FILES, false);
+        mMaxFileSize = intent.getLongExtra(EXTRA_MAX_FILE_SIZE, -1);
     }
 
     private int calculateGridColumnsCount() {
