@@ -39,48 +39,80 @@ import ru.bartwell.exfilepicker.ui.view.FilesListToolbar;
 import ru.bartwell.exfilepicker.utils.ListUtils;
 import ru.bartwell.exfilepicker.utils.Utils;
 
-public class ExFilePickerActivity extends AppCompatActivity implements OnListItemClickListener,
-        Toolbar.OnMenuItemClickListener, View.OnClickListener, NewFolderDialog.OnNewFolderNameEnteredListener,
-        SortingDialog.OnSortingSelectedListener, StorageDialog.OnStorageSelectedListener {
-
+public class ExFilePickerActivity extends AppCompatActivity
+    implements OnListItemClickListener, Toolbar.OnMenuItemClickListener, View.OnClickListener,
+    NewFolderDialog.OnNewFolderNameEnteredListener, SortingDialog.OnSortingSelectedListener,
+    StorageDialog.OnStorageSelectedListener {
     public static final String EXTRA_CAN_CHOOSE_ONLY_ONE_ITEM = "CAN_CHOOSE_ONLY_ONE_ITEM";
+
     public static final String EXTRA_SHOW_ONLY_EXTENSIONS = "SHOW_ONLY_EXTENSIONS";
+
     public static final String EXTRA_EXCEPT_EXTENSIONS = "EXCEPT_EXTENSIONS";
+
     public static final String EXTRA_IS_NEW_FOLDER_BUTTON_DISABLED = "IS_NEW_FOLDER_BUTTON_DISABLED";
+
     public static final String EXTRA_IS_SORT_BUTTON_DISABLED = "IS_SORT_BUTTON_DISABLED";
+
     public static final String EXTRA_IS_QUIT_BUTTON_ENABLED = "IS_QUIT_BUTTON_ENABLED";
+
     public static final String EXTRA_CHOICE_TYPE = "CHOICE_TYPE";
+
     public static final String EXTRA_SORTING_TYPE = "SORTING_TYPE";
+
     public static final String EXTRA_START_DIRECTORY = "START_DIRECTORY";
+
     public static final String EXTRA_USE_FIRST_ITEM_AS_UP_ENABLED = "USE_FIRST_ITEM_AS_UP_ENABLED";
+
     public static final String EXTRA_HIDE_HIDDEN_FILES = "HIDE_HIDDEN_FILES";
+
     public static final String EXTRA_MAX_FILE_SIZE = "MAX_FILE_SIZE";
+
     public static final String PERMISSION_READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
+
     private static final String DIRECTORY_STATE = "DIRECTORY_STATE";
+
     private static final int REQUEST_CODE_READ_EXTERNAL_STORAGE = 1;
+
     private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 2;
-    private static final String TOP_DIRECTORY = "/";
 
     private boolean mCanChooseOnlyOneItem;
+
     @Nullable
     private String[] mShowOnlyExtensions;
+
     @Nullable
     private String[] mExceptExtensions;
+
     private boolean mIsNewFolderButtonDisabled;
+
     private boolean mIsSortButtonDisabled;
+
     private boolean mIsQuitButtonEnabled;
+
     @NonNull
     private ExFilePicker.ChoiceType mChoiceType = ExFilePicker.ChoiceType.ALL;
+
     @NonNull
     private ExFilePicker.SortingType mSortingType = ExFilePicker.SortingType.NAME_ASC;
+
     private File mCurrentDirectory;
+
+    private File mTopDirectory;
+
     private FilesListToolbar mToolbar;
+
     private RecyclerView mRecyclerView;
+
     private View mEmptyView;
+
     private FilesListAdapter mAdapter;
+
     private boolean mIsMultiChoiceModeEnabled;
+
     private boolean mUseFirstItemAsUpEnabled;
+
     private boolean mHideHiddenFiles;
+
     private long mMaxFileSize;
 
     @Override
@@ -98,7 +130,8 @@ public class ExFilePickerActivity extends AppCompatActivity implements OnListIte
         if (ContextCompat.checkSelfPermission(this, PERMISSION_READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             readDirectory(mCurrentDirectory);
         } else {
-            ActivityCompat.requestPermissions(this, new String[]{PERMISSION_READ_EXTERNAL_STORAGE}, REQUEST_CODE_READ_EXTERNAL_STORAGE);
+            ActivityCompat.requestPermissions(this, new String[] { PERMISSION_READ_EXTERNAL_STORAGE },
+                REQUEST_CODE_READ_EXTERNAL_STORAGE);
         }
     }
 
@@ -156,7 +189,7 @@ public class ExFilePickerActivity extends AppCompatActivity implements OnListIte
                 finishWithResult(mCurrentDirectory, mAdapter.getSelectedItems());
             } else if (mChoiceType == ExFilePicker.ChoiceType.DIRECTORIES) {
                 if (isTopDirectory(mCurrentDirectory)) {
-                    finishWithResult(mCurrentDirectory, "/");
+                    finishWithResult(mCurrentDirectory, mTopDirectory.getAbsolutePath());
                 } else {
                     finishWithResult(mCurrentDirectory.getParentFile(), mCurrentDirectory.getName());
                 }
@@ -170,10 +203,12 @@ public class ExFilePickerActivity extends AppCompatActivity implements OnListIte
             dialog.setOnStorageSelectedListener(this);
             dialog.show();
         } else if (itemId == R.id.new_folder) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_GRANTED) {
                 showNewFolderDialog();
             } else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_WRITE_EXTERNAL_STORAGE);
+                ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
+                    REQUEST_CODE_WRITE_EXTERNAL_STORAGE);
             }
         } else if (itemId == R.id.select_all) {
             mAdapter.selectAll();
@@ -213,7 +248,8 @@ public class ExFilePickerActivity extends AppCompatActivity implements OnListIte
                         readUpDirectory();
                     }
                 }
-            } else if (event.getAction() == KeyEvent.ACTION_DOWN && (event.getFlags() & KeyEvent.FLAG_LONG_PRESS) == KeyEvent.FLAG_LONG_PRESS) {
+            } else if (event.getAction() == KeyEvent.ACTION_DOWN &&
+                       (event.getFlags() & KeyEvent.FLAG_LONG_PRESS) == KeyEvent.FLAG_LONG_PRESS) {
                 finish();
             }
             return true;
@@ -231,8 +267,9 @@ public class ExFilePickerActivity extends AppCompatActivity implements OnListIte
                 if (file.mkdir()) {
                     readDirectory(mCurrentDirectory);
                     Toast.makeText(ExFilePickerActivity.this, R.string.efp__folder_created, Toast.LENGTH_SHORT).show();
-                } else
+                } else {
                     Toast.makeText(ExFilePickerActivity.this, R.string.efp__folder_not_created, Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
@@ -246,6 +283,7 @@ public class ExFilePickerActivity extends AppCompatActivity implements OnListIte
     @Override
     public void onStorageSelected(String path) {
         mCurrentDirectory = new File(path);
+        mTopDirectory = new File(path);
         readDirectory(mCurrentDirectory);
     }
 
@@ -272,7 +310,8 @@ public class ExFilePickerActivity extends AppCompatActivity implements OnListIte
             mEmptyView.setVisibility(View.GONE);
             List<File> list = new ArrayList<>();
             ListUtils.ConditionChecker<File> checker;
-            if (mShowOnlyExtensions != null && mShowOnlyExtensions.length > 0 && mChoiceType != ExFilePicker.ChoiceType.DIRECTORIES) {
+            if (mShowOnlyExtensions != null && mShowOnlyExtensions.length > 0 &&
+                mChoiceType != ExFilePicker.ChoiceType.DIRECTORIES) {
                 final List<String> showOnlyExtensions = Arrays.asList(mShowOnlyExtensions);
                 checker = new ListUtils.ConditionChecker<File>() {
                     @Override
@@ -324,7 +363,7 @@ public class ExFilePickerActivity extends AppCompatActivity implements OnListIte
 
     private void setTitle(@NonNull File directory) {
         if (isTopDirectory(directory)) {
-            mToolbar.setTitle(TOP_DIRECTORY);
+            mToolbar.setTitle(null);
         } else {
             mToolbar.setTitle(directory.getName());
         }
@@ -341,6 +380,7 @@ public class ExFilePickerActivity extends AppCompatActivity implements OnListIte
         mChoiceType = (ExFilePicker.ChoiceType) intent.getSerializableExtra(EXTRA_CHOICE_TYPE);
         mSortingType = (ExFilePicker.SortingType) intent.getSerializableExtra(EXTRA_SORTING_TYPE);
         mCurrentDirectory = getStartDirectory(intent);
+        mTopDirectory = getTopDirectory();
         mUseFirstItemAsUpEnabled = intent.getBooleanExtra(EXTRA_USE_FIRST_ITEM_AS_UP_ENABLED, false);
         mHideHiddenFiles = intent.getBooleanExtra(EXTRA_HIDE_HIDDEN_FILES, false);
         mMaxFileSize = intent.getLongExtra(EXTRA_MAX_FILE_SIZE, -1);
@@ -381,13 +421,14 @@ public class ExFilePickerActivity extends AppCompatActivity implements OnListIte
     }
 
     private boolean isTopDirectory(@Nullable File directory) {
-        return directory != null && TOP_DIRECTORY.equals(directory.getAbsolutePath());
+        return directory != null && mTopDirectory.getAbsolutePath().equals(directory.getAbsolutePath());
     }
 
     private void setChangeViewIcon(@NonNull Menu menu) {
         MenuItem item = menu.findItem(R.id.change_view);
         if (item != null) {
-            item.setIcon(Utils.attrToResId(this, mAdapter.isGridModeEnabled() ? R.attr.efp__ic_action_list : R.attr.efp__ic_action_grid));
+            item.setIcon(
+                Utils.attrToResId(this, mAdapter.isGridModeEnabled() ? R.attr.efp__ic_action_list : R.attr.efp__ic_action_grid));
             item.setTitle(mAdapter.isGridModeEnabled() ? R.string.efp__action_list : R.string.efp__action_grid);
         }
     }
@@ -443,10 +484,16 @@ public class ExFilePickerActivity extends AppCompatActivity implements OnListIte
             }
         }
         if (path == null) {
-            LinkedHashMap<String, String> storages = Utils.getExternalStoragePaths(this);
-            if (storages.size() > 0) {
-                path = new File((String) storages.keySet().toArray()[0]);
-            }
+            path = getTopDirectory();
+        }
+        return path;
+    }
+
+    private File getTopDirectory() {
+        File path = null;
+        LinkedHashMap<String, String> storages = Utils.getExternalStoragePaths(this);
+        if (storages.size() > 0) {
+            path = new File((String) storages.keySet().toArray()[0]);
         }
         if (path == null) {
             path = new File("/");
