@@ -67,6 +67,8 @@ public class ExFilePickerActivity extends AppCompatActivity
 
     public static final String EXTRA_MAX_FILE_SIZE = "MAX_FILE_SIZE";
 
+    public static final String EXTRA_TOP_DIRECTORY_TITLE = "TOP_DIRECTORY_TITLE";
+
     public static final String PERMISSION_READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
 
     private static final String DIRECTORY_STATE = "DIRECTORY_STATE";
@@ -114,6 +116,8 @@ public class ExFilePickerActivity extends AppCompatActivity
     private boolean mHideHiddenFiles;
 
     private long mMaxFileSize;
+
+    private String mTopDirectoryTitle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -363,7 +367,7 @@ public class ExFilePickerActivity extends AppCompatActivity
 
     private void setTitle(@NonNull File directory) {
         if (isTopDirectory(directory)) {
-            mToolbar.setTitle(null);
+            mToolbar.setTitle(mTopDirectoryTitle);
         } else {
             mToolbar.setTitle(directory.getName());
         }
@@ -384,6 +388,7 @@ public class ExFilePickerActivity extends AppCompatActivity
         mUseFirstItemAsUpEnabled = intent.getBooleanExtra(EXTRA_USE_FIRST_ITEM_AS_UP_ENABLED, false);
         mHideHiddenFiles = intent.getBooleanExtra(EXTRA_HIDE_HIDDEN_FILES, false);
         mMaxFileSize = intent.getLongExtra(EXTRA_MAX_FILE_SIZE, -1);
+        mTopDirectoryTitle = intent.getStringExtra(EXTRA_TOP_DIRECTORY_TITLE);
     }
 
     private int calculateGridColumnsCount() {
