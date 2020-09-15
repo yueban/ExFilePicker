@@ -34,5 +34,6 @@
         <item>Por fecha, descendente</item>
     </string-array>
     <string name="efp__storage">Almacenamiento</string>
+    <string name="ok">ok</string>
 
 </resources>

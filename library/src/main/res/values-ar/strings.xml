@@ -34,5 +34,6 @@
         <item>بواسطة التاريخ، تنازلي</item>
     </string-array>
     <string name="efp__storage">تخزين</string>
+    <string name="ok">ok</string>
 
 </resources>

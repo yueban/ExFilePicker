@@ -155,9 +155,6 @@ public class ExFilePickerActivity extends AppCompatActivity
     @Override
     public void onListItemClick(int position) {
         if (mIsMultiChoiceModeEnabled) {
-            if (mCanChooseOnlyOneItem) {
-                mAdapter.deselect();
-            }
             mAdapter.setItemSelected(position, !mAdapter.isItemSelected(position));
         } else {
             if (position == OnListItemClickListener.POSITION_UP) {
@@ -176,7 +173,7 @@ public class ExFilePickerActivity extends AppCompatActivity
 
     @Override
     public void onListItemLongClick(int position) {
-        if (!mIsMultiChoiceModeEnabled && position != OnListItemClickListener.POSITION_UP) {
+        if (!mIsMultiChoiceModeEnabled && position != OnListItemClickListener.POSITION_UP && !mCanChooseOnlyOneItem) {
             mIsMultiChoiceModeEnabled = true;
             if (mChoiceType != ExFilePicker.ChoiceType.FILES || !mAdapter.getItem(position).isDirectory()) {
                 mAdapter.setItemSelected(position, true);

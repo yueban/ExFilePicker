@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="testTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="efp__ic_action_cancel">@drawable/efp_light__ic_action_cancel</item>
+    </style>
+
     <style name="ExFilePickerThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="efp__ic_action_cancel">@drawable/efp_light__ic_action_cancel</item>
         <item name="efp__ic_action_deselect">@drawable/efp_light__ic_action_deselect</item>

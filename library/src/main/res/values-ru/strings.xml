@@ -34,5 +34,6 @@
         <item>По дате, по убыванию</item>
     </string-array>
     <string name="efp__storage">Хранилище</string>
+    <string name="ok">ok</string>
 
 </resources>

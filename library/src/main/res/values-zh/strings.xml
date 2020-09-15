@@ -25,6 +25,7 @@
     <string name="efp__folder_already_exists">已存在同名文件夹</string>
     <string name="efp__sort">排序</string>
     <string name="efp__storage">存储</string>
+    <string name="ok">确定</string>
 
     <string-array name="efp__sorting_types">
         <item>按名称正序</item>
