@@ -34,5 +34,6 @@
         <item>Par date, décroissant</item>
     </string-array>
     <string name="efp__storage">Stockage</string>
+    <string name="ok">ok</string>
 
 </resources>

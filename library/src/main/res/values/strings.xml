@@ -25,6 +25,7 @@
     <string name="efp__folder_already_exists">Folder already exists</string>
     <string name="efp__sort">Sort</string>
     <string name="efp__storage">Storage</string>
+    <string name="ok">ok</string>
 
     <string-array name="efp__sorting_types">
         <item>By name, ascending</item>

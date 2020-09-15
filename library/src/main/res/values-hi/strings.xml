@@ -34,5 +34,6 @@
         <item>तारीख तक, घटत</item>
     </string-array>
     <string name="efp__storage">भंडारण</string>
+    <string name="ok">ok</string>
 
 </resources>

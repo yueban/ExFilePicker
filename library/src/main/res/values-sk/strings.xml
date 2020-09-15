@@ -25,5 +25,6 @@
     </string-array>
     <string name="efp__app_name">ExFilePicker</string>
     <string name="efp__storage">Sklad</string>
+    <string name="ok">ok</string>
 
 </resources>

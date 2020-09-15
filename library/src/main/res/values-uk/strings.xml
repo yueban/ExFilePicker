@@ -34,5 +34,6 @@
         <item>За датою, по убуванню</item>
     </string-array>
     <string name="efp__storage">Сховище</string>
+    <string name="ok">ok</string>
 
 </resources>
